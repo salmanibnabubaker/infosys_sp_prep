@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    int minOpr(int i,string &x,int j,string &y,vector<vector<int>>&dp){
+        if(i==x.length()){
+            return y.length()-j;
+        }
+        if(j==y.length()){
+            return x.length()-i;   
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        if(x[i]==y[j]){
+            return dp[i][j]=minOpr(i+1,x,j+1,y,dp);
+        }
+        return dp[i][j]=min({minOpr(i,x,j+1,y,dp)+1,minOpr(i+1,x,j,y,dp)+1,minOpr(i+1,x,j+1,y,dp)+1});
+    }
+    // Function to compute the edit distance between two strings
+    int editDistance(string& s1, string& s2) {
+        // code here
+        vector<vector<int>>dp(s1.length(),vector<int>(s2.length(),-1));
+        return minOpr(0,s1,0,s2,dp);
+    }
+};
